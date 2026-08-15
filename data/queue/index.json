@@ -1,5 +1,36 @@
 {
   "weekOf": "2026-08-15",
-  "status": "awaiting-first-weekly-pack",
-  "posts": []
+  "status": "pending-approval",
+  "posts": [
+    {
+      "id": "2026-08-15-01",
+      "file": "2026-08-15-01-cloud-gtm-is-translation.md",
+      "status": "pending",
+      "theme": "Cloud GTM as translation work"
+    },
+    {
+      "id": "2026-08-15-02",
+      "file": "2026-08-15-02-ai-speed-not-strategy.md",
+      "status": "pending",
+      "theme": "AI as speed, not strategy"
+    },
+    {
+      "id": "2026-08-15-03",
+      "file": "2026-08-15-03-awards-are-receipts.md",
+      "status": "pending",
+      "theme": "Awards as receipts not identity"
+    },
+    {
+      "id": "2026-08-15-04",
+      "file": "2026-08-15-04-two-languages-one-brief.md",
+      "status": "pending",
+      "theme": "English and Mandarin as GTM tools"
+    },
+    {
+      "id": "2026-08-15-05",
+      "file": "2026-08-15-05-economics-still-helps.md",
+      "status": "pending",
+      "theme": "Economics training in GTM"
+    }
+  ]
 }

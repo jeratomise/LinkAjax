@@ -9,10 +9,48 @@ function splitFront(raw: string) {
   if (end === -1) return { meta: {}, body: raw };
   const yaml = raw.slice(4, end);
   const meta: Record<string, string> = {};
-  for (const line of yaml.split("\n")) {
-    const i = line.indexOf(":");
-    if (i > 0) meta[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+
+  const lines = yaml.split("\n");
+  let currentKey = "";
+  let multilineValue = "";
+  let inMultiline = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (inMultiline) {
+      if (line.startsWith("  ")) {
+        multilineValue += (multilineValue ? "\n" : "") + line.slice(2);
+      } else if (line.trim() === "") {
+        multilineValue += "\n";
+      } else {
+        meta[currentKey] = multilineValue.trim();
+        inMultiline = false;
+        currentKey = "";
+        multilineValue = "";
+      }
+    }
+
+    if (!inMultiline) {
+      const colonIndex = line.indexOf(":");
+      if (colonIndex > 0) {
+        const key = line.slice(0, colonIndex).trim();
+        const value = line.slice(colonIndex + 1).trim();
+        if (value === "|" || value === ">") {
+          currentKey = key;
+          inMultiline = true;
+          multilineValue = "";
+        } else {
+          meta[key] = value;
+        }
+      }
+    }
   }
+
+  if (inMultiline && currentKey) {
+    meta[currentKey] = multilineValue.trim();
+  }
+
   return { meta, body: raw.slice(end + 4).trim() };
 }
 
