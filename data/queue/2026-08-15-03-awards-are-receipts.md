@@ -6,6 +6,7 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260815_155147_7d2df412-7c46-41fa-964e-95f2a080e62c.png
 image_prompt: |
   Professional infographic at 1080x1080 pixels. Clean editorial style.
   
@@ -33,10 +34,10 @@ image_prompt: |
 
 Awards are not a personality.
 
-They are receipts that work shipped.
+They are receipts that work shipped. 🧾
 
 HP Amaze from a global shortlist of about 1,200. APAC loyalty gold. AR bronze. AMD Spotlight more than once.
 
 I put them on a resume so a hiring manager can verify. I do not put them in every post.
 
-The work underneath is regional GTM for technical products.
+The work underneath is regional GTM for technical products. 🌏

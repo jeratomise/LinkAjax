@@ -6,6 +6,7 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260815_155147_6d1ac371-da4d-431f-beb4-a083411de581.png
 image_prompt: |
   Professional infographic at 1080x1080 pixels. Clean editorial style, flat design, no gradients.
   
@@ -23,7 +24,7 @@ image_prompt: |
   Style: Corporate B2B, not startup. No icons, no emojis, no 3D effects. Hairline borders only.
 ---
 
-Hiring teams still ask marketers for more awareness.
+Hiring teams still ask marketers for more awareness. 📊
 
 The better question is whether anyone translated the product into a regional buyer's language.
 
@@ -31,4 +32,4 @@ That is the unglamorous half of cloud GTM in APAC. Roadmaps do not travel. Partn
 
 I would rather show that work than a content calendar.
 
-If you are hiring for that brief, the CV is in Featured.
+If you are hiring for that brief, the CV is in Featured. 🔗
