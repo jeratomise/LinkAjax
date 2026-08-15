@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST() {
   const candidates = [
+    path.resolve(process.cwd(), ".ajax/lib/voice-merge.mjs"),
     path.resolve(process.cwd(), "../../lib/voice-merge.mjs"),
     path.resolve(process.cwd(), "lib/voice-merge.mjs"),
   ];

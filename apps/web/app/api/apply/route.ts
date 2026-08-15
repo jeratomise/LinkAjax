@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 
 function applyHref() {
   const candidates = [
+    path.resolve(process.cwd(), ".ajax/lib/apply.mjs"),
     path.resolve(process.cwd(), "../../lib/apply.mjs"),
     path.resolve(process.cwd(), "lib/apply.mjs"),
     path.resolve(process.cwd(), "../lib/apply.mjs"),
@@ -12,6 +13,11 @@ function applyHref() {
   const found = candidates.find((p) => fs.existsSync(p));
   if (!found) throw new Error("apply module not found");
   return pathToFileURL(found).href;
+}
+
+function asBase64(filePath: string) {
+  if (!filePath || !fs.existsSync(filePath)) return null;
+  return fs.readFileSync(filePath).toString("base64");
 }
 
 export async function POST(req: Request) {
@@ -25,5 +31,11 @@ export async function POST(req: Request) {
     slug: result.slug,
     role: result.role,
     company: result.company,
+    files: {
+      "resume.pdf": asBase64(result.files?.resumePdf),
+      "resume.docx": asBase64(result.files?.resumeDocx),
+      "cover-letter.pdf": asBase64(result.files?.letterPdf),
+      "cover-letter.docx": asBase64(result.files?.letterDocx),
+    },
   });
 }

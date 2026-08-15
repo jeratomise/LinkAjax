@@ -6,8 +6,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: root,
+  outputFileTracingIncludes: {
+    "/*": ["./.ajax/**/*"],
+  },
   serverExternalPackages: ["docx", "pdfkit"],
-  output: "standalone",
 };
 
 export default nextConfig;

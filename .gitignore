@@ -9,6 +9,7 @@ out/
 .env.local
 .env*.local
 apps/web/.next/
+apps/web/.ajax/
 apps/web/node_modules/
 data/applications/*/resume.docx
 data/applications/*/resume.pdf

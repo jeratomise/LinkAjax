@@ -4,6 +4,7 @@ import path from "node:path";
 export function dataDir() {
   if (process.env.AJAX_DATA_DIR) return path.resolve(process.env.AJAX_DATA_DIR);
   const candidates = [
+    path.resolve(process.cwd(), ".ajax/data"),
     path.resolve(process.cwd(), "data"),
     path.resolve(process.cwd(), "../../data"),
     path.resolve(process.cwd(), "../data"),

@@ -2,11 +2,27 @@
 
 import { useState } from "react";
 
+type Pack = {
+  slug: string;
+  role: string;
+  files?: Record<string, string | null>;
+};
+
+function downloadBase64(name: string, b64: string, mime: string) {
+  const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  const url = URL.createObjectURL(new Blob([bytes], { type: mime }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function ApplyForm() {
   const [jd, setJd] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [pack, setPack] = useState<{ slug: string; role: string } | null>(null);
+  const [pack, setPack] = useState<Pack | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,11 +52,20 @@ export function ApplyForm() {
       </p>
       {error ? <p className="error">{error}</p> : null}
       {pack ? (
-        <p>
+        <p className="downloads">
           Ready for {pack.role}.{" "}
-          <a href={`/api/export/${pack.slug}/resume.pdf`}>Download resume</a>
-          {" · "}
-          <a href={`/api/export/${pack.slug}/cover-letter.pdf`}>Download cover letter</a>
+          {pack.files?.["resume.pdf"] ? (
+            <button type="button" className="secondary" onClick={() => downloadBase64(`${pack.slug}-resume.pdf`, pack.files!["resume.pdf"]!, "application/pdf")}>Resume PDF</button>
+          ) : null}{" "}
+          {pack.files?.["cover-letter.pdf"] ? (
+            <button type="button" className="secondary" onClick={() => downloadBase64(`${pack.slug}-cover-letter.pdf`, pack.files!["cover-letter.pdf"]!, "application/pdf")}>Cover letter PDF</button>
+          ) : null}{" "}
+          {pack.files?.["resume.docx"] ? (
+            <button type="button" className="secondary" onClick={() => downloadBase64(`${pack.slug}-resume.docx`, pack.files!["resume.docx"]!, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")}>Resume Word</button>
+          ) : null}{" "}
+          {pack.files?.["cover-letter.docx"] ? (
+            <button type="button" className="secondary" onClick={() => downloadBase64(`${pack.slug}-cover-letter.docx`, pack.files!["cover-letter.docx"]!, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")}>Cover letter Word</button>
+          ) : null}
         </p>
       ) : null}
     </form>
