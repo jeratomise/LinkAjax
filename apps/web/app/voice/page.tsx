@@ -1,4 +1,4 @@
-import { listMd, readData } from "../../lib/data";
+import { listMd, readData } from "@/lib/data";
 import { MergeButton } from "./ui";
 
 export const dynamic = "force-dynamic";

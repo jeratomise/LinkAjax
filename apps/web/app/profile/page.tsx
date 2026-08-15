@@ -1,4 +1,4 @@
-import { readData } from "../../lib/data";
+import { readData } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 

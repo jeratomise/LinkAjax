@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { dataDir } from "../../../lib/data";
+import { dataDir } from "@/lib/data";
 
 export async function POST(req: Request) {
   const { file, status, body } = await req.json();

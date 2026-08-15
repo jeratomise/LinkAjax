@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { cookieName, password, tokenFor } from "../lib/auth";
+import { cookieName, password, tokenFor } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "AJAX",

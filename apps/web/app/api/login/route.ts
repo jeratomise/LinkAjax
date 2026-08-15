@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { cookieName, password, tokenFor } from "../../lib/auth";
+import { cookieName, password, tokenFor } from "@/lib/auth";
 
 export async function POST(req: Request) {
   const { password: pw } = await req.json();

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { listApplications, listMd, readData } from "../lib/data";
+import { listApplications, listMd, readData } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 

@@ -1,4 +1,4 @@
-import { listApplications } from "../../lib/data";
+import { listApplications } from "@/lib/data";
 import { ApplyForm } from "./ui";
 
 export const dynamic = "force-dynamic";
