@@ -6,6 +6,7 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260815_155147_545df746-5ab8-4fcb-9859-a50c3ab72166.png
 image_prompt: |
   Professional infographic at 1080x1080 pixels. Clean editorial style, flat design.
   
@@ -25,10 +26,10 @@ image_prompt: |
   Style: Minimalist chart, no decorative elements. Hairline borders. No shadows.
 ---
 
-AI made the first draft cheap.
+AI made the first draft cheap. ⚡
 
 It did not make the market call cheap.
 
 I use the tools. Harvard and LinkedIn coursework this year were about that. The judgement about APAC buyers, partners, and what not to ship is still the job.
 
-If your role needs both, that is the conversation I want.
+If your role needs both, that is the conversation I want. 💬

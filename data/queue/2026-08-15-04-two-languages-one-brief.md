@@ -6,6 +6,7 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260815_155147_663b736f-5659-432a-adcd-6c3038f57772.png
 image_prompt: |
   Professional infographic at 1080x1080 pixels. Clean editorial style.
   
@@ -25,8 +26,8 @@ image_prompt: |
   Style: Flat, diagrammatic. No gradients or shadows. Thin copper outline on the map.
 ---
 
-APAC cloud deals do not happen in one language.
+APAC cloud deals do not happen in one language. 🌐
 
 I work in English and Mandarin, from Singapore. That is not a diversity line. It is how partner and customer rooms actually run.
 
-If your APAC brief assumes a single HQ narrative, the region will quietly ignore it.
+If your APAC brief assumes a single HQ narrative, the region will quietly ignore it. 🤝
