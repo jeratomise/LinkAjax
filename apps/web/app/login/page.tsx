@@ -1,13 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+type Mode = "password" | "magic-link";
+
+function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlError = searchParams.get("error");
+
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState<Mode>("password");
+  const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">(
+    "idle"
+  );
+  const [error, setError] = useState(
+    urlError === "auth"
+      ? "Sign-in failed. Please try again."
+      : urlError === "config"
+        ? "Authentication is not configured. Contact the administrator."
+        : ""
+  );
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onPasswordSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("loading");
+    setError("");
+
+    try {
+      const supabase = createClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        if (signInError.message.includes("Invalid login credentials")) {
+          setError("Invalid email or password.");
+        } else {
+          setError(signInError.message);
+        }
+        setStatus("error");
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError("Network error. Please try again.");
+      setStatus("error");
+    }
+  }
+
+  async function onMagicLinkSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
     setError("");
@@ -34,24 +82,103 @@ export default function LoginPage() {
     }
   }
 
-  return (
-    <>
-      <h1>Sign in</h1>
-      <p className="lede">
-        Enter your email to receive a magic link. No password needed.
-      </p>
-
-      {status === "sent" ? (
+  if (status === "sent") {
+    return (
+      <>
+        <h1>Check your inbox</h1>
         <div className="card">
           <p className="success">
-            Check your inbox for a magic link from AJAX.
+            We have sent a sign-in link to <strong>{email}</strong>.
           </p>
           <p className="meta">
             Click the link in the email to sign in. You can close this tab.
           </p>
         </div>
+        <p className="meta" style={{ marginTop: "1rem" }}>
+          <button
+            type="button"
+            className="link"
+            onClick={() => {
+              setStatus("idle");
+              setError("");
+            }}
+          >
+            Try a different email
+          </button>
+        </p>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <h1>Sign in</h1>
+      <p className="lede">
+        {mode === "password"
+          ? "Enter your email and password."
+          : "Enter your email to receive a sign-in link."}
+      </p>
+
+      {mode === "password" ? (
+        <form className="card" onSubmit={onPasswordSubmit}>
+          <label htmlFor="email">Email address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+          />
+
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Your password"
+          />
+
+          <p>
+            <button type="submit" disabled={status === "loading"}>
+              {status === "loading" ? "Signing in..." : "Sign in"}
+            </button>
+          </p>
+          {error ? <p className="error">{error}</p> : null}
+
+          <p className="meta" style={{ marginTop: "1rem" }}>
+            <button
+              type="button"
+              className="link"
+              onClick={() => {
+                setMode("magic-link");
+                setError("");
+              }}
+            >
+              Forgot password? Email me a link
+            </button>
+          </p>
+          <p className="meta">
+            <button
+              type="button"
+              className="link"
+              onClick={() => {
+                setMode("magic-link");
+                setError("");
+              }}
+            >
+              First time? Sign in with email link
+            </button>
+          </p>
+        </form>
       ) : (
-        <form className="card" onSubmit={onSubmit}>
+        <form className="card" onSubmit={onMagicLinkSubmit}>
           <label htmlFor="email">Email address</label>
           <input
             id="email"
@@ -65,12 +192,40 @@ export default function LoginPage() {
           />
           <p>
             <button type="submit" disabled={status === "loading"}>
-              {status === "loading" ? "Sending..." : "Send magic link"}
+              {status === "loading" ? "Sending..." : "Send sign-in link"}
             </button>
           </p>
           {error ? <p className="error">{error}</p> : null}
+
+          <p className="meta" style={{ marginTop: "1rem" }}>
+            <button
+              type="button"
+              className="link"
+              onClick={() => {
+                setMode("password");
+                setError("");
+              }}
+            >
+              Sign in with password instead
+            </button>
+          </p>
         </form>
       )}
     </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <>
+          <h1>Sign in</h1>
+          <p className="lede">Loading...</p>
+        </>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

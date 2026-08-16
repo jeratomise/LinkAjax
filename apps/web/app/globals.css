@@ -259,7 +259,7 @@ button.secondary:hover, a.secondary:hover {
   background: var(--line-soft);
 }
 
-textarea, input[type="password"], input[type="text"] {
+textarea, input[type="email"], input[type="password"], input[type="text"] {
   width: 100%;
   font: inherit;
   font-size: 15px;
@@ -1283,4 +1283,22 @@ textarea.paste-box {
   padding: 8px 14px;
   font-size: 13px;
   min-height: auto;
+}
+
+/* Link-styled buttons in forms */
+button.link {
+  background: transparent;
+  border: none;
+  color: var(--navy);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  min-height: auto;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+button.link:hover {
+  color: var(--copper);
+  background: transparent;
 }
