@@ -1,10 +1,33 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type Mode = "password" | "magic-link";
+
+function getHashError(): string {
+  if (typeof window === "undefined") return "";
+
+  const hash = window.location.hash;
+  if (!hash) return "";
+
+  const params = new URLSearchParams(hash.slice(1));
+  const errorCode = params.get("error_code");
+  const errorDesc = params.get("error_description");
+
+  if (errorCode === "otp_expired" || errorDesc?.includes("expired")) {
+    return "This sign-in link has expired or has already been used. Please request a new link or sign in with your password.";
+  }
+  if (errorCode === "access_denied") {
+    return "Access was denied. Please request a new sign-in link or use your password.";
+  }
+  if (params.get("error")) {
+    return errorDesc?.replace(/\+/g, " ") || "Sign-in failed. Please try again.";
+  }
+
+  return "";
+}
 
 function LoginForm() {
   const router = useRouter();
@@ -17,13 +40,26 @@ function LoginForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">(
     "idle"
   );
-  const [error, setError] = useState(
-    urlError === "auth"
-      ? "Sign-in failed. Please try again."
-      : urlError === "config"
-        ? "Authentication is not configured. Contact the administrator."
-        : ""
-  );
+  const [error, setError] = useState("");
+
+  // Handle errors from URL (query params and hash fragment)
+  useEffect(() => {
+    const hashError = getHashError();
+    if (hashError) {
+      setError(hashError);
+      // Clear the hash to prevent showing error on refresh
+      if (window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+      return;
+    }
+
+    if (urlError === "auth") {
+      setError("Sign-in failed. Please try again.");
+    } else if (urlError === "config") {
+      setError("Authentication is not configured. Contact the administrator.");
+    }
+  }, [urlError]);
 
   async function onPasswordSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

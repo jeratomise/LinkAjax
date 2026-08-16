@@ -35,9 +35,6 @@ export async function POST(request: Request) {
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",
       email: emailLower,
-      options: {
-        redirectTo: `${siteUrl}/api/auth/callback`,
-      },
     });
 
     if (error) {
@@ -48,14 +45,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const magicLink = data.properties?.action_link;
-    if (!magicLink) {
-      console.error("No action_link in response:", data);
+    // Use hashed_token to build our own confirmation URL.
+    // This prevents email scanners/prefetch from consuming the OTP,
+    // since our /auth/confirm page only verifies via client-side JS.
+    const hashedToken = data.properties?.hashed_token;
+    if (!hashedToken) {
+      console.error("No hashed_token in response:", data);
       return NextResponse.json(
         { error: "Failed to generate sign-in link" },
         { status: 500 }
       );
     }
+
+    const magicLink = `${siteUrl}/auth/confirm?token_hash=${encodeURIComponent(hashedToken)}&type=magiclink`;
 
     const fromAddress = process.env.RESEND_FROM || "AJAX <noreply@resend.dev>";
 

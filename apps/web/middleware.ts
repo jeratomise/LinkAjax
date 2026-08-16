@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
-const PUBLIC = ["/login", "/api/auth"];
+const PUBLIC = ["/login", "/auth/confirm", "/api/auth"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
