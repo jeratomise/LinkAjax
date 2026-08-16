@@ -1,33 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
-import os from "node:os";
 import { NextResponse } from "next/server";
-
-function dataDir() {
-  if (process.env.AJAX_DATA_DIR) return path.resolve(process.env.AJAX_DATA_DIR);
-  const candidates = [
-    path.resolve(process.cwd(), ".ajax/data"),
-    path.resolve(process.cwd(), "data"),
-    path.resolve(process.cwd(), "../../data"),
-    path.resolve(process.cwd(), "../data"),
-  ];
-  return candidates.find((p) => fs.existsSync(p)) || candidates[1];
-}
-
-function writableDir() {
-  if (process.env.VERCEL) return path.join(os.tmpdir(), "ajax-data");
-  return dataDir();
-}
-
-function getMasterDir() {
-  const dir = path.join(writableDir(), "applications", "_master");
-  fs.mkdirSync(dir, { recursive: true });
-  return dir;
-}
+import { createClient, getUser } from "@/lib/supabase/server";
 
 async function extractTextFromPdf(buffer: Buffer): Promise<string> {
   try {
-    // pdf-parse has complex exports; use require for compatibility
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const pdfParse = require("pdf-parse");
     const data = await pdfParse(buffer);
@@ -105,37 +80,26 @@ This file is the authoritative fact base for tailored resumes and cover letters.
   return md.trim() + "\n";
 }
 
-function getResumeInfo() {
-  const dirs = [path.join(writableDir(), "applications", "_master")];
-  const repoMaster = path.join(dataDir(), "applications", "_master");
-  if (dirs[0] !== repoMaster) dirs.push(repoMaster);
-
-  let cvExists = false;
-  let cvUpdated = "";
-  let pdfExists = false;
-  let source = "";
-
-  for (const masterDir of dirs) {
-    const cvPath = path.join(masterDir, "cv.md");
-    const pdfPath = path.join(masterDir, "resume.pdf");
-    if (!cvExists && fs.existsSync(cvPath)) {
-      cvExists = true;
-      const stat = fs.statSync(cvPath);
-      cvUpdated = stat.mtime.toISOString();
-      const content = fs.readFileSync(cvPath, "utf8");
-      const sourceMatch = content.match(/^Source:\s*(.+)$/m);
-      if (sourceMatch) source = sourceMatch[1];
-    }
-    if (!pdfExists && fs.existsSync(pdfPath)) pdfExists = true;
-  }
-
-  return { cvExists, cvUpdated, pdfExists, source };
-}
-
 export async function GET() {
   try {
-    const info = getResumeInfo();
-    return NextResponse.json(info);
+    const user = await getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+    }
+
+    const supabase = await createClient();
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("cv_text, cv_source, cv_updated_at")
+      .eq("id", user.id)
+      .single();
+
+    return NextResponse.json({
+      cvExists: !!profile?.cv_text,
+      cvUpdated: profile?.cv_updated_at || "",
+      pdfExists: false, // We could check storage, but not critical for UI
+      source: profile?.cv_source || "",
+    });
   } catch (error) {
     console.error("Resume info error:", error);
     return NextResponse.json({ error: "Failed to get resume info" }, { status: 500 });
@@ -144,6 +108,11 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const user = await getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+    }
+
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     
@@ -152,9 +121,9 @@ export async function POST(req: Request) {
     }
 
     const filename = file.name;
-    const ext = path.extname(filename).toLowerCase();
+    const ext = filename.split(".").pop()?.toLowerCase();
 
-    if (![".pdf", ".docx"].includes(ext)) {
+    if (!ext || !["pdf", "docx"].includes(ext)) {
       return NextResponse.json(
         { error: "Only PDF and DOCX files are supported" },
         { status: 400 }
@@ -164,7 +133,7 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
     
     let text: string;
-    if (ext === ".pdf") {
+    if (ext === "pdf") {
       text = await extractTextFromPdf(buffer);
     } else {
       text = await extractTextFromDocx(buffer);
@@ -177,25 +146,46 @@ export async function POST(req: Request) {
       );
     }
 
-    const masterDir = getMasterDir();
-    
-    const binaryPath = path.join(masterDir, ext === ".pdf" ? "resume.pdf" : "resume.docx");
-    fs.writeFileSync(binaryPath, buffer);
+    const supabase = await createClient();
 
-    const cvMd = convertToMarkdown(text, filename);
-    const cvPath = path.join(masterDir, "cv.md");
-    fs.writeFileSync(cvPath, cvMd, "utf8");
-
-    const info = getResumeInfo();
-
-    if (process.env.VERCEL) {
-      return NextResponse.json({
-        ...info,
-        warning: "Running on Vercel serverless. Uploaded files are stored in temporary storage and will not persist across deployments. For permanent storage, commit the files to the repository or use external storage.",
+    // Upload file to Supabase Storage
+    const storagePath = `${user.id}/resume.${ext}`;
+    const { error: uploadError } = await supabase.storage
+      .from("resumes")
+      .upload(storagePath, buffer, {
+        contentType: ext === "pdf" ? "application/pdf" : "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        upsert: true,
       });
+
+    if (uploadError) {
+      console.error("Storage upload error:", uploadError);
+      return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
     }
 
-    return NextResponse.json(info);
+    // Convert to markdown and update profile
+    const cvMd = convertToMarkdown(text, filename);
+    const now = new Date().toISOString();
+
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        cv_text: cvMd,
+        cv_source: `${filename} (uploaded ${now.split("T")[0]})`,
+        cv_updated_at: now,
+      })
+      .eq("id", user.id);
+
+    if (updateError) {
+      console.error("Profile update error:", updateError);
+      return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      cvExists: true,
+      cvUpdated: now,
+      pdfExists: ext === "pdf",
+      source: `${filename} (uploaded ${now.split("T")[0]})`,
+    });
   } catch (error) {
     console.error("Upload error:", error);
     const message = error instanceof Error ? error.message : "Upload failed";

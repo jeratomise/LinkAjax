@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { cookieName, password, tokenFor } from "@/lib/auth";
+import { getUser } from "@/lib/supabase/server";
+import { SignOutButton } from "./sign-out-button";
 
 export const metadata: Metadata = {
   title: "AJAX",
@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const jar = await cookies();
-  const authed = jar.get(cookieName())?.value === tokenFor(password());
+  const user = await getUser();
 
   return (
     <html lang="en-GB">
@@ -20,12 +19,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Link href="/">
             <strong>AJAX</strong>
           </Link>
-          {authed ? (
+          {user ? (
             <nav className="app">
               <Link href="/profile">Profile</Link>
               <Link href="/apply">Apply</Link>
               <Link href="/voice">Voice</Link>
               <Link href="/week">This week</Link>
+              <span className="user-email">{user.email}</span>
+              <SignOutButton />
             </nav>
           ) : (
             <span className="meta">LinkedIn unchanged</span>

@@ -1,10 +1,40 @@
 import { listApplications } from "@/lib/data";
+import { createClient, getUser } from "@/lib/supabase/server";
 import { ApplyForm, ResumeUpload } from "./ui";
 
 export const dynamic = "force-dynamic";
 
-export default function ApplyPage() {
-  const packs = listApplications();
+export default async function ApplyPage() {
+  const user = await getUser();
+  const supabase = await createClient();
+
+  // Get applications from both Supabase and file system
+  const filePacks = listApplications();
+  
+  let dbPacks: typeof filePacks = [];
+  if (user) {
+    const { data } = await supabase
+      .from("applications")
+      .select("slug, role, company, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+    
+    if (data) {
+      dbPacks = data.map((p) => ({
+        slug: p.slug,
+        role: p.role || "",
+        company: p.company || "",
+        created: p.created_at?.split("T")[0] || "",
+      }));
+    }
+  }
+
+  // Merge, preferring database records
+  const dbSlugs = new Set(dbPacks.map((p) => p.slug));
+  const packs = [
+    ...dbPacks,
+    ...filePacks.filter((p) => !dbSlugs.has(p.slug)),
+  ];
   return (
     <>
       <h1>Apply</h1>

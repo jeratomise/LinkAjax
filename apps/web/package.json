@@ -8,13 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.3",
     "docx": "^9.5.0",
     "mammoth": "^1.12.1",
     "next": "^15.5.0",
     "pdf-parse": "^2.4.5",
     "pdfkit": "^0.17.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "resend": "^4.5.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

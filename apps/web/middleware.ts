@@ -1,22 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookieName, password, tokenFor } from "./lib/auth";
+import { updateSession } from "@/lib/supabase/middleware";
 
-const PUBLIC = ["/login", "/api/login"];
+const PUBLIC = ["/login", "/api/auth"];
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (PUBLIC.some((p) => pathname === p || pathname.startsWith("/_next") || pathname.startsWith("/favicon"))) {
+
+  // Allow static files and public routes
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.includes(".") ||
+    PUBLIC.some((p) => pathname === p || pathname.startsWith(p + "/"))
+  ) {
     return NextResponse.next();
   }
-  if (pathname.startsWith("/_next") || pathname.includes(".")) return NextResponse.next();
-  const token = req.cookies.get(cookieName())?.value;
-  if (token === tokenFor(password())) return NextResponse.next();
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+
+  // Update Supabase session (refresh tokens if needed)
+  const { user, supabaseResponse } = await updateSession(req);
+
+  // Redirect to login if not authenticated
+  if (!user) {
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+    }
+    const url = req.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
   }
-  const url = req.nextUrl.clone();
-  url.pathname = "/login";
-  return NextResponse.redirect(url);
+
+  return supabaseResponse;
 }
 
 export const config = {

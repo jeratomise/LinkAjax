@@ -1,5 +1,7 @@
 import { readData } from "@/lib/data";
+import { createClient, getUser } from "@/lib/supabase/server";
 import ProfileUI from "./ui";
+import { LinkedInConnection } from "./linkedin-connection";
 
 export const dynamic = "force-dynamic";
 
@@ -157,7 +159,21 @@ function parseSuggestions(raw: string): {
   return { headlines, about, experience, featured };
 }
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const user = await getUser();
+  const supabase = await createClient();
+
+  // Fetch LinkedIn connection status
+  let linkedInConnection = null;
+  if (user) {
+    const { data } = await supabase
+      .from("linkedin_connections")
+      .select("linkedin_sub, profile_snapshot, last_synced_at, expires_at")
+      .eq("user_id", user.id)
+      .single();
+    linkedInConnection = data;
+  }
+
   let snapshot: ReturnType<typeof parseSnapshot> | null = null;
   let suggestions: ReturnType<typeof parseSuggestions> | null = null;
 
@@ -226,6 +242,7 @@ export default function ProfilePage() {
           View your profile ↗
         </a>
       </p>
+      <LinkedInConnection connection={linkedInConnection} />
       <ProfileUI sections={sections} />
     </>
   );
