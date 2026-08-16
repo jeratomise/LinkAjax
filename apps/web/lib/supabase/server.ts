@@ -2,12 +2,27 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "./types";
 
+// NEXT_PUBLIC_* vars are replaced at build time by Next.js (both edge and
+// Node.js). If the build ran against a cached webpack chunk compiled before
+// the vars were set in Vercel, they are undefined even for server components.
+// SUPABASE_URL / SUPABASE_ANON_KEY are non-public, runtime-injected by Vercel
+// and are immune to the build-cache staleness problem.
+const supabaseUrl =
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey =
+  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
 export async function createClient() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error(
+      "Supabase env vars are not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY in Vercel."
+    );
+  }
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -30,11 +45,15 @@ export async function createClient() {
 }
 
 export async function getUser() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  } catch {
+    return null;
+  }
 }
 
 export async function getSession() {
