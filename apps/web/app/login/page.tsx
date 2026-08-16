@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getClient } from "@/lib/supabase/client";
 
 type Mode = "password" | "magic-link";
 
@@ -67,32 +66,24 @@ function LoginForm() {
     setError("");
 
     try {
-      const supabase = await getClient();
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const res = await fetch("/api/auth/password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (signInError) {
-        if (signInError.message.includes("Invalid login credentials")) {
-          setError("Invalid email or password.");
-        } else {
-          setError(signInError.message);
-        }
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Sign-in failed. Please try again.");
         setStatus("error");
         return;
       }
 
       router.push("/");
       router.refresh();
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Could not reach the sign-in service.";
-      if (message.includes("configuration") || message.includes("config")) {
-        setError("Sign-in service is not configured. Please contact the administrator.");
-      } else {
-        setError(message);
-      }
+    } catch {
+      setError("Could not reach the sign-in service. Please try again.");
       setStatus("error");
     }
   }

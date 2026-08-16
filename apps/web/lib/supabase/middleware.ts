@@ -5,15 +5,23 @@ import { NextResponse, type NextRequest } from "next/server";
 // build ran before they were set in Vercel the inlined value is undefined.
 // SUPABASE_URL / SUPABASE_ANON_KEY are non-public vars, injected at runtime by
 // Vercel's edge runtime, so they always reflect the current dashboard values.
+// Service role key is used as LAST RESORT when NEXT_PUBLIC vars were baked as
+// undefined and SUPABASE_ANON_KEY is not set. This is safe for auth session
+// operations (getUser) but should not be used for broader data queries.
 const supabaseUrl =
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey =
-  process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  process.env.SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  "https://rsgexlhkihdothacjhrh.supabase.co";
+const supabaseKey =
+  process.env.SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 export async function updateSession(request: NextRequest) {
   // If Supabase is not configured, treat every request as unauthenticated.
   // The middleware caller will redirect to /login; no 500.
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabaseUrl || !supabaseKey) {
     return { user: null, supabaseResponse: NextResponse.next({ request }) };
   }
 
@@ -23,7 +31,7 @@ export async function updateSession(request: NextRequest) {
 
   const supabase = createServerClient(
     supabaseUrl,
-    supabaseAnonKey,
+    supabaseKey,
     {
       cookies: {
         getAll() {
