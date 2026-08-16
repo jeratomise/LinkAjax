@@ -1,5 +1,5 @@
 import { listApplications } from "@/lib/data";
-import { ApplyForm } from "./ui";
+import { ApplyForm, ResumeUpload } from "./ui";
 
 export const dynamic = "force-dynamic";
 
@@ -8,7 +8,8 @@ export default function ApplyPage() {
   return (
     <>
       <h1>Apply</h1>
-      <p className="lede">Paste a job description. AJAX tailors a cover letter and resume from the snapshot. It does not invent facts and does not edit LinkedIn.</p>
+      <p className="lede">Paste a job description. AJAX tailors a cover letter and resume from your master CV. It does not invent facts and does not edit LinkedIn.</p>
+      <ResumeUpload />
       <ApplyForm />
       <h2>Packs</h2>
       {packs.length === 0 ? (

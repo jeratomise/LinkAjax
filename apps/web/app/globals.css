@@ -1059,3 +1059,88 @@ textarea.paste-box {
   color: var(--muted);
   font-size: 12px;
 }
+
+/* Resume Upload Section */
+.resume-source {
+  background: var(--cream);
+  border: 1px dashed var(--line);
+  margin-bottom: 20px;
+}
+
+.resume-source h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--navy);
+}
+
+.resume-info {
+  margin-bottom: 12px;
+}
+
+.source-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.status-dot.active {
+  background: #057642;
+}
+
+.upload-label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.upload-label .button {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.upload-label .button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-hint {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.success {
+  color: #057642;
+  font-weight: 500;
+}
+
+.jd-hint {
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.pack-result {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.pack-result .downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pack-result .meta {
+  margin-top: 12px;
+}

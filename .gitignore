@@ -16,6 +16,7 @@ data/applications/*/resume.pdf
 data/applications/*/cover-letter.docx
 data/applications/*/cover-letter.pdf
 !data/applications/_master/
+!data/applications/_master/**
 .DS_Store
 Thumbs.db
 *.tmp

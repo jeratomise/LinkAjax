@@ -10,12 +10,13 @@ description: >
 
 Read, in order:
 
-1. `data/applications/_master/cv.md`
-2. `data/profile/snapshot.md`
-3. `data/about-me.md`
-4. `data/voice.md`
+1. `data/applications/_master/cv.md` (text extracted from the current resume PDF)
+2. `data/applications/_master/cover-letter-sample.md` (voice and structure from a real letter)
+3. `data/profile/snapshot.md`
+4. `data/about-me.md`
+5. `data/voice.md`
 
-Never invent employers, dates, awards, titles, or metrics. If the JD wants a number you do not have, omit it or write "not in fact base".
+Never invent employers, dates, awards, titles, or metrics. If the JD wants a number you do not have, omit it or write "not in fact base". The Apply page can replace the master resume via upload; generation must use the updated `cv.md`.
 
 ## Steps
 

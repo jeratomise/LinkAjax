@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/*": ["./.ajax/**/*"],
   },
-  serverExternalPackages: ["docx", "pdfkit"],
+  serverExternalPackages: ["docx", "pdfkit", "pdf-parse", "mammoth"],
 };
 
 export default nextConfig;
