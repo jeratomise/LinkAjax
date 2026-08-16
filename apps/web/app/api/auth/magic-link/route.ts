@@ -24,13 +24,25 @@ export async function POST(request: Request) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const supabaseAdmin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    );
+    const supabaseUrl =
+      process.env.SUPABASE_URL ||
+      process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      "https://rsgexlhkihdothacjhrh.supabase.co";
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    if (!serviceRoleKey) {
+      return NextResponse.json(
+        { error: "Authentication is not configured. Contact the administrator." },
+        { status: 503 }
+      );
+    }
+
+    const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
+
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "https://linkajax.vercel.app";
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",
