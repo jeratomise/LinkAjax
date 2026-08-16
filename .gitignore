@@ -19,5 +19,6 @@ data/applications/*/cover-letter.pdf
 .DS_Store
 Thumbs.db
 *.tmp
+data/queue/images/
 
 .vercel

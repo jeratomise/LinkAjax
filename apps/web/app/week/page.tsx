@@ -137,7 +137,21 @@ const CREATORS_DATA: Creator[] = [
   },
 ];
 
+type QueueIndex = {
+  theme?: string;
+  posts?: { file: string }[];
+};
+
+function loadQueueIndex(): QueueIndex | null {
+  try {
+    return JSON.parse(readData("queue/index.json")) as QueueIndex;
+  } catch {
+    return null;
+  }
+}
+
 export default function WeekPage() {
+  const index = loadQueueIndex();
   let brief = "No weekly brief yet. Run npm run weekly-pack or the Sunday Cloud Agent.";
   try {
     const files = listMd("research/weekly");
@@ -145,15 +159,22 @@ export default function WeekPage() {
   } catch {
     brief = "Research folder missing.";
   }
-  const posts = listMd("queue")
+  const parsed = listMd("queue")
     .filter((f) => f.name.endsWith(".md") && !f.name.startsWith("README"))
     .map((f) => ({ name: f.name, ...splitFront(f.text) }));
+  const wanted = index?.posts?.map((p) => p.file) ?? [];
+  const posts = wanted.length
+    ? wanted.map((name) => parsed.find((p) => p.name === name)).filter((p): p is (typeof parsed)[number] => Boolean(p))
+    : parsed;
 
   const trendsSection = brief.split("## Creators to watch")[0];
 
   return (
     <>
       <h1>This week</h1>
+      <p className="meta" style={{ marginTop: -4, marginBottom: 12 }}>
+        Theme: {index?.theme || "Weekly drafts"}
+      </p>
       <p className="lede">Approve drafts here, then paste into LinkedIn yourself. AJAX does not publish.</p>
 
       <h2>Post queue</h2>

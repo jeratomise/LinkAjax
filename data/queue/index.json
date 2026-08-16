@@ -1,36 +1,37 @@
 {
-  "weekOf": "2026-08-15",
+  "weekOf": "2026-08-16",
   "status": "pending-approval",
+  "theme": "AI as trade productivity for sophisticated B2B marketing",
   "posts": [
     {
-      "id": "2026-08-15-01",
-      "file": "2026-08-15-01-hq-playbooks-stall-apac.md",
+      "id": "2026-08-16-01",
+      "file": "2026-08-16-01-brief-is-the-bottleneck.md",
       "status": "pending",
-      "theme": "Why HQ playbooks stall in APAC"
+      "theme": "The brief is now the bottleneck"
     },
     {
-      "id": "2026-08-15-02",
-      "file": "2026-08-15-02-ai-accelerates-execution.md",
+      "id": "2026-08-16-02",
+      "file": "2026-08-16-02-stack-is-not-a-system.md",
       "status": "pending",
-      "theme": "AI accelerates execution, not market calls"
+      "theme": "A stack is not a system"
     },
     {
-      "id": "2026-08-15-03",
-      "file": "2026-08-15-03-partner-led-apac.md",
+      "id": "2026-08-16-03",
+      "file": "2026-08-16-03-compress-the-groundwork.md",
       "status": "pending",
-      "theme": "Partner-led GTM is the APAC default"
+      "theme": "Compress the groundwork, keep the market call"
     },
     {
-      "id": "2026-08-15-04",
-      "file": "2026-08-15-04-measurement-gap-apac.md",
+      "id": "2026-08-16-04",
+      "file": "2026-08-16-04-editor-is-the-speed-gain.md",
       "status": "pending",
-      "theme": "The measurement gap in APAC B2B"
+      "theme": "Editorial control is the real speed gain"
     },
     {
-      "id": "2026-08-15-05",
-      "file": "2026-08-15-05-localisation-debt.md",
+      "id": "2026-08-16-05",
+      "file": "2026-08-16-05-volume-is-not-visibility.md",
       "status": "pending",
-      "theme": "Localisation debt in global GTM"
+      "theme": "Volume is not visibility"
     }
   ]
 }
