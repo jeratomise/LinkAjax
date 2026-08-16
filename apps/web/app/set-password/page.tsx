@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { getClient } from "@/lib/supabase/client";
 
 export default function SetPasswordPage() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function SetPasswordPage() {
     }
 
     try {
-      const supabase = createClient();
+      const supabase = await getClient();
 
       // Update password via Supabase Auth
       const { error: updateError } = await supabase.auth.updateUser({

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { getClient } from "@/lib/supabase/client";
 
 type Mode = "password" | "magic-link";
 
@@ -67,7 +67,7 @@ function LoginForm() {
     setError("");
 
     try {
-      const supabase = createClient();
+      const supabase = await getClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -85,8 +85,14 @@ function LoginForm() {
 
       router.push("/");
       router.refresh();
-    } catch {
-      setError("Network error. Please try again.");
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not reach the sign-in service.";
+      if (message.includes("configuration") || message.includes("config")) {
+        setError("Sign-in service is not configured. Please contact the administrator.");
+      } else {
+        setError(message);
+      }
       setStatus("error");
     }
   }

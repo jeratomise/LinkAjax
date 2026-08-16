@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { getClient } from "@/lib/supabase/client";
 
 function ConfirmContent() {
   const router = useRouter();
@@ -35,7 +35,7 @@ function ConfirmContent() {
     setError("");
 
     try {
-      const supabase = createClient();
+      const supabase = await getClient();
 
       const { data, error: verifyError } = await supabase.auth.verifyOtp({
         token_hash: tokenHash,
