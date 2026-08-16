@@ -1,5 +1,6 @@
 import { listMd, readData } from "@/lib/data";
-import { QueueItem, CreatorsGrid, Creator } from "./ui";
+import { CreatorsGrid, Creator } from "./ui";
+import { WeekBoard, type Pillar } from "./board";
 
 export const dynamic = "force-dynamic";
 
@@ -137,21 +138,40 @@ const CREATORS_DATA: Creator[] = [
   },
 ];
 
-type QueueIndex = {
-  theme?: string;
-  posts?: { file: string }[];
-};
+type ThemesFile = { pillars?: Pillar[] };
 
-function loadQueueIndex(): QueueIndex | null {
+function loadPillars(): Pillar[] {
   try {
-    return JSON.parse(readData("queue/index.json")) as QueueIndex;
+    const file = JSON.parse(readData("queue/themes.json")) as ThemesFile;
+    return file.pillars || [];
   } catch {
-    return null;
+    return [];
   }
 }
 
+function recommendPillar(brief: string, pillars: Pillar[]): string {
+  const text = brief.toLowerCase();
+  let best = pillars[0]?.id || "";
+  let score = -1;
+  for (const p of pillars) {
+    const s = (p.keywords || []).filter((k) => text.includes(k.toLowerCase())).length;
+    if (s > score) {
+      score = s;
+      best = p.id;
+    }
+  }
+  return best;
+}
+
+function inferPillar(name: string, meta: Record<string, string>): string {
+  if (meta.pillar) return meta.pillar;
+  if (name.includes("2026-08-15")) return "region-marketer";
+  if (name.includes("2026-08-16")) return "marketing-os";
+  return "marketing-os";
+}
+
 export default function WeekPage() {
-  const index = loadQueueIndex();
+  const pillars = loadPillars();
   let brief = "No weekly brief yet. Run npm run weekly-pack or the Sunday Cloud Agent.";
   try {
     const files = listMd("research/weekly");
@@ -159,29 +179,26 @@ export default function WeekPage() {
   } catch {
     brief = "Research folder missing.";
   }
-  const parsed = listMd("queue")
+  const posts = listMd("queue")
     .filter((f) => f.name.endsWith(".md") && !f.name.startsWith("README"))
-    .map((f) => ({ name: f.name, ...splitFront(f.text) }));
-  const wanted = index?.posts?.map((p) => p.file) ?? [];
-  const posts = wanted.length
-    ? wanted.map((name) => parsed.find((p) => p.name === name)).filter((p): p is (typeof parsed)[number] => Boolean(p))
-    : parsed;
+    .map((f) => {
+      const parsed = splitFront(f.text);
+      const pillar = inferPillar(f.name, parsed.meta);
+      return { name: f.name, ...parsed, meta: { ...parsed.meta, pillar } };
+    })
+    .sort((a, b) => b.name.localeCompare(a.name));
 
+  const recommendedId = recommendPillar(brief, pillars);
+  const recommended = pillars.find((p) => p.id === recommendedId);
   const trendsSection = brief.split("## Creators to watch")[0];
 
   return (
     <>
       <h1>This week</h1>
       <p className="meta" style={{ marginTop: -4, marginBottom: 12 }}>
-        Theme: {index?.theme || "Weekly drafts"}
+        Recommended: {recommended?.label || "Weekly drafts"}
       </p>
-      <p className="lede">Approve drafts here, then paste into LinkedIn yourself. AJAX does not publish.</p>
-
-      <h2>Post queue</h2>
-      {posts.length === 0 ? <p className="meta">Queue empty.</p> : null}
-      {posts.map((p) => (
-        <QueueItem key={p.name} file={p.name} meta={p.meta} body={p.body} />
-      ))}
+      <WeekBoard posts={posts} pillars={pillars} recommendedId={recommendedId} />
 
       <h2>Creators to watch</h2>
       <p className="meta" style={{ marginBottom: 16 }}>

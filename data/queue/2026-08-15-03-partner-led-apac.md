@@ -1,6 +1,7 @@
 ---
 id: 2026-08-15-03
 status: pending
+pillar: region-marketer
 theme: Partner-led GTM is the APAC default
 source_links: []
 voice: provisional

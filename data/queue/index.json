@@ -2,36 +2,77 @@
   "weekOf": "2026-08-16",
   "status": "pending-approval",
   "theme": "AI as trade productivity for sophisticated B2B marketing",
+  "recommendedPillar": "marketing-os",
   "posts": [
     {
       "id": "2026-08-16-01",
       "file": "2026-08-16-01-brief-is-the-bottleneck.md",
       "status": "pending",
+      "pillar": "marketing-os",
       "theme": "The brief is now the bottleneck"
     },
     {
       "id": "2026-08-16-02",
       "file": "2026-08-16-02-stack-is-not-a-system.md",
       "status": "pending",
+      "pillar": "marketing-os",
       "theme": "A stack is not a system"
     },
     {
       "id": "2026-08-16-03",
       "file": "2026-08-16-03-compress-the-groundwork.md",
       "status": "pending",
+      "pillar": "marketing-os",
       "theme": "Compress the groundwork, keep the market call"
     },
     {
       "id": "2026-08-16-04",
       "file": "2026-08-16-04-editor-is-the-speed-gain.md",
       "status": "pending",
+      "pillar": "marketing-os",
       "theme": "Editorial control is the real speed gain"
     },
     {
       "id": "2026-08-16-05",
       "file": "2026-08-16-05-volume-is-not-visibility.md",
       "status": "pending",
+      "pillar": "marketing-os",
       "theme": "Volume is not visibility"
+    },
+    {
+      "id": "2026-08-15-01",
+      "file": "2026-08-15-01-hq-playbooks-stall-apac.md",
+      "status": "pending",
+      "pillar": "region-marketer",
+      "theme": "Why HQ playbooks stall in APAC"
+    },
+    {
+      "id": "2026-08-15-02",
+      "file": "2026-08-15-02-ai-accelerates-execution.md",
+      "status": "pending",
+      "pillar": "region-marketer",
+      "theme": "AI accelerates execution, not market calls"
+    },
+    {
+      "id": "2026-08-15-03",
+      "file": "2026-08-15-03-partner-led-apac.md",
+      "status": "pending",
+      "pillar": "region-marketer",
+      "theme": "Partner-led GTM is the APAC default"
+    },
+    {
+      "id": "2026-08-15-04",
+      "file": "2026-08-15-04-measurement-gap-apac.md",
+      "status": "pending",
+      "pillar": "region-marketer",
+      "theme": "The measurement gap in APAC B2B"
+    },
+    {
+      "id": "2026-08-15-05",
+      "file": "2026-08-15-05-localisation-debt.md",
+      "status": "pending",
+      "pillar": "region-marketer",
+      "theme": "Localisation debt in global GTM"
     }
   ]
 }

@@ -8,7 +8,7 @@ Local: `C:\Users\Jerome\ajax` (not production)
 Job-first LinkedIn assistant. Never edits live LinkedIn. Never posts without approval. No scrape, no cookies, no bot bypass.
 
 ## Week theme
-AI as trade productivity for sophisticated B2B marketing. Recruiter-first. Not resume, not awards, not HQ-versus-region (that pack remains in queue from 15/08).
+Recommended from the trend brief. Tabs on /week: Life of a Region Marketer, AI Tools to Watch, Marketing operating system, Cloud and AI GTM. Track pending / approved / rejected / posted per draft.
 
 ## This week (5 drafts)
 1. The brief is now the bottleneck

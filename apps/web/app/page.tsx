@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { listApplications, listMd, readData } from "@/lib/data";
+import { listApplications, listMd } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -7,8 +7,10 @@ export default function HomePage() {
   let queueCount = 0;
   let apps = 0;
   try {
-    const index = JSON.parse(readData("queue/index.json"));
-    queueCount = (index.posts || []).filter((p: { status: string }) => p.status === "pending").length;
+    queueCount = listMd("queue").filter((f) => {
+      const match = f.text.match(/^status:\s*(\w+)/m);
+      return (match?.[1] || "pending") === "pending";
+    }).length;
     apps = listApplications().length;
   } catch {
     // Data folder not yet initialised

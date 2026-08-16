@@ -1,6 +1,7 @@
 ---
 id: 2026-08-15-04
 status: pending
+pillar: region-marketer
 theme: The measurement gap in APAC B2B
 source_links: []
 voice: provisional

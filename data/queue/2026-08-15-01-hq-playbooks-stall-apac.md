@@ -1,6 +1,7 @@
 ---
 id: 2026-08-15-01
 status: pending
+pillar: region-marketer
 theme: Why HQ playbooks stall in APAC
 source_links: []
 voice: provisional

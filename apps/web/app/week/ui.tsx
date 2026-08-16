@@ -7,14 +7,23 @@ function formatRelativeTime(): string {
   return hours < 24 ? `${hours}h` : "1d";
 }
 
+const STATUS_NOTE: Record<string, string> = {
+  pending: "Back in the queue.",
+  approved: "Approved. Paste into LinkedIn yourself, then mark Posted.",
+  rejected: "Rejected. It stays on file so you can review later.",
+  posted: "Marked posted. AJAX still does not publish for you.",
+};
+
 export function QueueItem({
   file,
   meta,
   body,
+  onStatus,
 }: {
   file: string;
   meta: Record<string, string>;
   body: string;
+  onStatus?: (file: string, status: string) => void;
 }) {
   const [text, setText] = useState(body);
   const [status, setStatus] = useState(meta.status || "pending");
@@ -38,7 +47,8 @@ export function QueueItem({
       return;
     }
     setStatus(next);
-    setMsg(next === "approved" ? "Approved. Paste into LinkedIn yourself." : `Marked ${next}.`);
+    onStatus?.(file, next);
+    setMsg(STATUS_NOTE[next] || `Marked ${next}.`);
   }
 
   async function copyPrompt() {
@@ -102,6 +112,22 @@ export function QueueItem({
         )}
       </div>
 
+      <div className="status-actions" aria-label="Draft status">
+        <button type="button" className={status === "pending" ? "is-current" : ""} onClick={() => save("pending")}>
+          Pending
+        </button>
+        <button type="button" className={status === "approved" ? "is-current" : ""} onClick={() => save("approved")}>
+          Approve
+        </button>
+        <button type="button" className={status === "rejected" ? "is-current" : ""} onClick={() => save("rejected")}>
+          Reject
+        </button>
+        <button type="button" className={status === "posted" ? "is-current" : ""} onClick={() => save("posted")}>
+          Posted
+        </button>
+        {msg && <span className="meta action-msg">{msg}</span>}
+      </div>
+
       {editOpen && (
         <div className="edit-disclosure">
           <div className="edit-meta">
@@ -110,8 +136,7 @@ export function QueueItem({
           </div>
           <textarea rows={8} value={text} onChange={(e) => setText(e.target.value)} />
           <div className="queue-actions">
-            <button type="button" onClick={() => save("approved")}>Approve</button>
-            <button type="button" className="secondary" onClick={() => save("rejected")}>Reject</button>
+            <button type="button" onClick={() => save(status || "pending")}>Save copy</button>
             {msg && <span className="meta action-msg">{msg}</span>}
           </div>
         </div>

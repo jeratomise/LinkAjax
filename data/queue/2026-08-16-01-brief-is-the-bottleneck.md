@@ -1,6 +1,7 @@
 ---
 id: 2026-08-16-01
 status: pending
+pillar: marketing-os
 theme: The brief is now the bottleneck
 source_links:
   - https://radiant.institute/ai-for-marketing-what-it-actually-changes-for-a-b2b-team/

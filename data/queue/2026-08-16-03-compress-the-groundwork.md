@@ -1,6 +1,7 @@
 ---
 id: 2026-08-16-03
 status: pending
+pillar: marketing-os
 theme: Compress the groundwork, keep the market call
 source_links:
   - https://radiant.institute/ai-for-marketing-what-it-actually-changes-for-a-b2b-team/

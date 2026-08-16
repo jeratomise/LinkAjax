@@ -1,6 +1,7 @@
 ---
 id: 2026-08-16-02
 status: pending
+pillar: marketing-os
 theme: A stack is not a system
 source_links: []
 voice: provisional

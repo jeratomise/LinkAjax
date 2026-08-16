@@ -26,6 +26,9 @@ export async function POST(req: Request) {
     index.posts = (index.posts || []).map((p: { file: string; status: string }) =>
       p.file === file ? { ...p, status } : p,
     );
+    if (!(index.posts || []).some((p: { file: string }) => p.file === file)) {
+      index.posts = [...(index.posts || []), { file, status }];
+    }
     fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + "\n");
   }
   return NextResponse.json({ ok: true, status });

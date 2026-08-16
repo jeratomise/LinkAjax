@@ -1,6 +1,7 @@
 ---
 id: 2026-08-15-02
 status: pending
+pillar: region-marketer
 theme: AI accelerates execution, not market calls
 source_links: []
 voice: provisional

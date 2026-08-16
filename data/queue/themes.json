@@ -1,0 +1,28 @@
+{
+  "pillars": [
+    {
+      "id": "region-marketer",
+      "label": "Life of a Region Marketer",
+      "blurb": "How APAC GTM actually works: HQ decks, partners, localisation, and measurement.",
+      "keywords": ["apac", "region", "partner", "localisation", "localization", "hq", "playbook", "korea", "japan", "channel", "reseller"]
+    },
+    {
+      "id": "ai-tools",
+      "label": "AI Tools to Watch",
+      "blurb": "What a marketer should actually try this quarter, and what is just another login.",
+      "keywords": ["tool", "chatgpt", "claude", "model", "martech", "agent", "stack", "copilot"]
+    },
+    {
+      "id": "marketing-os",
+      "label": "Marketing operating system",
+      "blurb": "AI as trade productivity: briefs, workflows, editorial control, and visibility.",
+      "keywords": ["brief", "workflow", "editor", "visibility", "productivity", "operating", "citation", "answer engine", "groundwork"]
+    },
+    {
+      "id": "cloud-gtm",
+      "label": "Cloud and AI GTM",
+      "blurb": "Translating infrastructure into demand a regional buyer will act on.",
+      "keywords": ["cloud", "server", "data centre", "data center", "infrastructure", "gtm", "buyer"]
+    }
+  ]
+}

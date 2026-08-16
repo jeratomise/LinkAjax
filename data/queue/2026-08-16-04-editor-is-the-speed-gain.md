@@ -1,6 +1,7 @@
 ---
 id: 2026-08-16-04
 status: pending
+pillar: marketing-os
 theme: Editorial control is the real speed gain
 source_links:
   - https://www.morganlewis.com/blogs/sourcingatmorganlewis/2026/08/eu-ai-acts-transparency-rules-what-went-into-effect-on-2-august

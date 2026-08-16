@@ -1,6 +1,7 @@
 ---
 id: 2026-08-16-05
 status: pending
+pillar: marketing-os
 theme: Volume is not visibility
 source_links:
   - https://www.factors.ai/blog/ai-search-visibility-for-b2b-saas

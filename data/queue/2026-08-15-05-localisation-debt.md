@@ -1,6 +1,7 @@
 ---
 id: 2026-08-15-05
 status: pending
+pillar: region-marketer
 theme: Localisation debt in global GTM
 source_links: []
 voice: provisional
