@@ -6,24 +6,20 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
-image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_023851_8c6791c5-9bfb-4f5e-ab5a-62835f96d72a.png
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_025051_fcb02173-e2eb-49ce-90b4-361b5468cff9.png
 image_prompt: |
-  Professional infographic at 1080x1080 pixels. Clean editorial style, flat design.
-  
-  Background: Off-white (#F6F1E8).
-  Text colour: Dark navy (#1B3A4B).
-  Accent colour: Copper (#C4783A).
-  
-  Layout:
-  HEADLINE (top, 32px bold): "AI changed the speed. Not the job."
-  
-  VISUAL (centre): Two horizontal stacked bars. Top bar: thin copper segment (20%) labelled "Draft" + large grey segment (80%) labelled "unchanged". Bottom bar: large copper segment (80%) labelled "Market call" + thin grey segment (20%). Arrow pointing to bottom bar with text "Still human".
-  
-  SUBTEXT (below visual, 16px): "Judgement about buyers, partners, and what not to ship."
-  
-  FOOTER (bottom, small): "B2B Marketing in APAC"
-  
-  Style: Minimalist chart. No decorative elements. Hairline borders.
+  Editorial infographic in the style of a Stripe or Linear brand diagram. Light cream background (#F6F1E8) with dark navy text (#1B3A4B) and copper accents (#C4783A).
+
+  Central visual: A sophisticated split composition. The left half shows a small, refined copper geometric shape (a simple parallelogram or rectangle) labelled "Draft" with a subtle speed line suggesting automation. The right half shows a larger navy silhouette of a human figure in contemplative pose, labelled "Market Call". A thin vertical copper hairline divides the two halves.
+
+  Below the visual: An elegant scale bar or proportion indicator showing "20%" on the left (copper) and "80%" on the right (navy), with small text: "AI accelerated" and "Still human".
+
+  At the top: large headline in navy, editorial sans-serif, reading "AI Changed the Speed. Not the Job."
+
+  At the bottom: small footer in copper, reading "B2B Marketing".
+
+  Style: Minimalist editorial. Negative space is generous. No decorative borders. No icons. Fine typographic hierarchy. Resembles a print annual report cover or consulting deck exhibit.
+image_model: Nano Banana Pro (Google)
 ---
 
 AI made the first draft free. ⚡

@@ -6,22 +6,18 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
-image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_023851_a53edf59-c293-4e1d-98ab-e1f459177e45.png
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_025051_951aec96-12a0-441a-939a-394779104654.png
 image_prompt: |
-  Professional infographic at 1080x1080 pixels. Clean editorial style, flat design, no gradients.
-  
-  Background: Dark navy (#1B3A4B).
-  Text colour: Off-white (#F6F1E8).
-  Accent colour: Copper (#C4783A).
-  
-  Layout:
-  HEADLINE (top, 32px bold): "The HQ deck problem"
-  
-  VISUAL (centre): A simple flowchart. Left side shows a single box labelled "Global deck" with an arrow pointing right. The arrow splits into 5 smaller arrows pointing to 5 boxes labelled: "Japan", "Korea", "SEA", "ANZ", "India". A large X in copper marks the split point. Below the X: "Lost in translation".
-  
-  FOOTER (bottom, small text): "APAC B2B GTM"
-  
-  Style: Corporate B2B, diagrammatic. No icons, no emojis, no photos. Hairline copper borders only.
+  Editorial infographic in the style of a McKinsey exhibit or Bloomberg data visualisation. Dark navy background (#1B3A4B) with cream text (#F6F1E8) and copper accents (#C4783A).
+
+  Central visual: An elegant sankey-style divergence diagram. A single copper rectangle on the left labelled "Global Deck" in refined sans-serif typography. From it, five thin copper lines fan outward to the right, each terminating in a small cream square. The five squares are staggered vertically and labelled in small, precise type: "Japan", "Korea", "SEA", "ANZ", "India". Between the origin and the destinations, a subtle dotted copper line marks the break point with a refined "×" symbol.
+
+  At the top: large headline in cream, letterspaced, reading "The Deck Fragmentation Problem".
+
+  At the bottom: small footer text in copper, reading "APAC B2B GTM".
+
+  Style: Print-quality editorial diagram. Generous white space. No icons, no 3D, no gradients, no decorative elements. Fine hairline copper borders where appropriate. Subtle linen paper texture. Typography is sharp and editorial, resembling The Economist or Financial Times infographics.
+image_model: Nano Banana Pro (Google)
 ---
 
 HQ ships a deck. APAC ships silence. 🔇

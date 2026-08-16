@@ -6,24 +6,20 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
-image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_023851_4c66c5b8-0917-4fb7-9b98-d0fef43ae1b1.png
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_025051_b12ac2a1-53ee-4aa0-9168-87b223fd1ea5.png
 image_prompt: |
-  Professional infographic at 1080x1080 pixels. Clean editorial style.
-  
-  Background: Off-white (#F6F1E8).
-  Text colour: Dark navy (#1B3A4B).
-  Accent colour: Copper (#C4783A).
-  
-  Layout:
-  HEADLINE (top, 28px bold): "Attribution vs reality"
-  
-  VISUAL (centre): Two columns side by side. Left column header: "Dashboard says" with three items below (copper bullets): "Webinar sourced", "Content touched", "Ad influenced". Right column header: "Deal closed because" with three items: "Partner intro", "Executive ref", "Proof of concept".
-  
-  A dotted copper line separates the two columns with a "≠" symbol in the middle.
-  
-  FOOTER (bottom): "APAC B2B Measurement" in small navy text.
-  
-  Style: Comparison chart. No decorative elements. Clean sans-serif.
+  Editorial infographic in the style of a Financial Times data feature or Harvard Business Review exhibit. Light cream background (#F6F1E8) with dark navy text (#1B3A4B) and copper accents (#C4783A).
+
+  Central visual: A sophisticated parallel comparison diagram. Two elegant vertical columns with refined headers. Left column header in navy: "Dashboard Says" with three items below in lighter navy type, each preceded by a small copper bullet: "Webinar sourced", "Content touched", "Ad influenced". Right column header in copper: "Deal Closed Because" with three items below: "Partner intro", "Executive relationship", "Proof of concept".
+
+  Between the columns: a large, elegant "≠" symbol in copper, positioned at the visual centre. Subtle dotted lines connect corresponding rows to emphasise the disconnect.
+
+  At the top: headline in navy, editorial serif or refined sans-serif, reading "Attribution vs. Reality".
+
+  At the bottom: footer in navy, reading "APAC B2B Measurement".
+
+  Style: Academic journal quality. Clean grid alignment. Generous margins. No decorative flourishes. Typography is the hero.
+image_model: Nano Banana Pro (Google)
 ---
 
 The dashboard says the webinar sourced the deal. 📊

@@ -6,24 +6,22 @@ source_links: []
 voice: provisional
 originality: Drafted from Jerome's fact base and voice, not from another creator's post. Lexical overlap vs provided sources: 0%.
 image_size: 1080x1080
-image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_023851_45d4d032-20ca-46a2-a263-afc052683bf8.png
+image_url: https://d8j0ntlcm91z4.cloudfront.net/user_3Bkn53N5yYYVvdokrzzsaL5XkHL/hf_20260816_025051_d562614c-fa4f-43fc-92c0-781697ca59e8.png
 image_prompt: |
-  Professional infographic at 1080x1080 pixels. Clean editorial style.
-  
-  Background: Dark navy (#1B3A4B).
-  Text colour: Off-white (#F6F1E8).
-  Accent colour: Copper (#C4783A).
-  
-  Layout:
-  HEADLINE (top, 28px bold): "Localisation debt"
-  
-  VISUAL (centre): A simple iceberg diagram. Above waterline (small, 20%): labelled "Translated assets". Below waterline (large, 80%): labelled "Proof points", "Case studies", "Partner co-sell", "Buyer context".
-  
-  SUBTEXT (below iceberg): "Translation is the visible 20%."
-  
-  FOOTER (bottom): "APAC GTM" in small text.
-  
-  Style: Iceberg metaphor, flat design. Copper waterline. No gradients or 3D.
+  Editorial infographic in the style of a McKinsey quarterly exhibit or Economist special report graphic. Dark navy background (#1B3A4B) with cream text (#F6F1E8) and copper accents (#C4783A).
+
+  Central visual: An elegant depth or iceberg visualisation rendered as layered horizontal strata. The top stratum is thin (roughly 20% of the visual height), in copper, labelled "Translated Assets" in cream text. A thin horizontal copper line marks the division. Below the line, four progressively deeper navy bands (getting slightly darker toward the bottom) are labelled in small cream type: "Local Proof Points", "Regional Case Studies", "Partner Co-sell Narratives", "Buyer Context".
+
+  The overall shape suggests depth without being a literal iceberg. Think geological strata or a cross-section diagram from a scientific journal.
+
+  Subtext below the visual in cream: "Translation is the visible 20%."
+
+  At the top: headline in cream, reading "Localisation Debt".
+
+  At the bottom: footer in copper, reading "APAC GTM".
+
+  Style: Sophisticated data visualisation. No 3D perspective. No gradients. Clean flat colour with subtle texture. Editorial precision.
+image_model: Nano Banana Pro (Google)
 ---
 
 Localisation is not translation. 🌏
