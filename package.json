@@ -14,7 +14,8 @@
     "merge-voice": "node scripts/merge-voice.mjs",
     "weekly-pack": "node scripts/weekly-pack.mjs",
     "setup:flights-mcp": "node scripts/setup-flights-mcp.mjs",
-    "flights-mcp:smoke": "node scripts/flights-mcp-smoke.mjs"
+    "flights-mcp:smoke": "node scripts/flights-mcp-smoke.mjs",
+    "deploy:flights-mcp": "node scripts/deploy-flights-mcp-railway.mjs"
   },
   "dependencies": {
     "docx": "^9.5.0",

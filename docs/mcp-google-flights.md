@@ -1,35 +1,98 @@
 # Google Flights MCP (LinkAjax)
 
-Free Google Flights MCP for Cursor, vendored into LinkAjax from
+Free Google Flights MCP for Cursor, vendored from
 [andreacappelletti97/google-flights-mcp](https://github.com/andreacappelletti97/google-flights-mcp)
 (ISC). No API key. No SerpAPI.
 
-## Why this package
+Two ways to connect:
 
-| Option | Free? | API key | Stack | Notes |
-| --- | --- | --- | --- | --- |
-| **andreacappelletti97/google-flights-mcp** (chosen) | Yes | No | Node 22 | 12 tools, npm package, richest free option |
-| HaroldLeo/google-flights-mcp | Yes (+ optional SerpAPI) | Optional | Python | Good fallback if you add a SerpAPI key |
-| manganate006/google-flights-mcp | Yes | No | Python | 6 tools via fast-flights |
-| SerpAPI-based MCPs | Free tier only | Required | Various | Paid after free quota |
-| Apify Google Flights actors | Pay-per-use | Apify token | Actors | Not free; not used here |
+| Mode | Best for |
+| --- | --- |
+| **Remote on Railway** (recommended) | Same MCP URL from Cloud Agent and desktop Cursor |
+| **Local stdio** | Live fare search on home/office Wi‑Fi when Railway is blocked by Google |
 
-## Setup (once per clone)
+---
 
-Needs **Node.js 22+**.
+## Deploy to Railway (always-on remote MCP)
+
+The server runs in **HTTP mode** at `/mcp` with a health check at `/health`.
+
+### 1. Install Railway CLI and sign in
 
 ```bash
-npm run setup:flights-mcp
+npm i -g @railway/cli
+railway login
 ```
 
-That installs and builds `mcp/google-flights`.
+### 2. Create a new Railway service for the MCP
 
-Cursor is already wired via `.cursor/mcp.json`:
+In the [Railway dashboard](https://railway.com):
+
+1. Open your project (or create one, e.g. `LinkAjax`)
+2. **New service → GitHub repo** → select `LinkAjax`
+3. Set **Root directory** to `mcp/google-flights`
+4. Railway will use `mcp/google-flights/Dockerfile` and `railway.toml`
+
+Or deploy from CLI:
+
+```bash
+cd mcp/google-flights
+railway link          # pick project, or railway init
+npm run deploy:flights-mcp --prefix ../..   # from repo root
+```
+
+The deploy script generates `GF_MCP_AUTH_TOKEN` and sets it on the service.
+
+### 3. Add a public domain
+
+```bash
+cd mcp/google-flights
+railway domain
+```
+
+Note the URL, e.g. `https://google-flights-mcp-production.up.railway.app`.
+
+Verify:
+
+```bash
+curl https://<your-domain>/health
+# {"status":"ok","tools":12,"version":"1.0.0"}
+```
+
+### 4. Set environment variables
+
+**On Railway** (service variables):
+
+| Variable | Value |
+| --- | --- |
+| `GF_MCP_AUTH_TOKEN` | Random secret, e.g. `openssl rand -hex 24` |
+| `PORT` | Set automatically by Railway |
+
+**On your machine** (for Cursor):
+
+Add to your shell profile (`~/.bashrc`, `~/.zshrc`) or system env:
+
+```bash
+export GF_MCP_URL="https://<your-domain>/mcp"
+export GF_MCP_AUTH_TOKEN="<same-token-as-railway>"
+```
+
+Restart Cursor after exporting.
+
+### 5. Cursor config (already in repo)
+
+`.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "google-flights": {
+      "url": "${env:GF_MCP_URL}",
+      "headers": {
+        "Authorization": "Bearer ${env:GF_MCP_AUTH_TOKEN}"
+      }
+    },
+    "google-flights-local": {
       "command": "node",
       "args": ["${workspaceFolder}/mcp/google-flights/dist/index.js"]
     }
@@ -37,22 +100,27 @@ Cursor is already wired via `.cursor/mcp.json`:
 }
 ```
 
-Restart Cursor (or reload MCP tools). You should see server `google-flights` with 12 tools.
+- **`google-flights`**: remote Railway (works everywhere once env is set)
+- **`google-flights-local`**: local fallback (disable in MCP settings if you only want remote)
 
-### npx alternative (no local build)
+Restart Cursor → **Settings → Tools & MCP** → confirm `google-flights` is green.
 
-```json
-{
-  "mcpServers": {
-    "google-flights": {
-      "command": "npx",
-      "args": ["-y", "google-flights-mcp"]
-    }
-  }
-}
+---
+
+## Local-only setup (stdio)
+
+If you skip Railway:
+
+```bash
+npm run setup:flights-mcp
+npm run flights-mcp:smoke
 ```
 
-## Tools
+Copy `.cursor/mcp.local.example.json` over `.cursor/mcp.json` if you want local-only, or enable `google-flights-local` in MCP settings.
+
+---
+
+## Tools (12)
 
 | Tool | Use |
 | --- | --- |
@@ -61,33 +129,48 @@ Restart Cursor (or reload MCP tools). You should see server `google-flights` wit
 | `get_price_insights` | Cheapest dates in a range |
 | `get_calendar_heatmap` | ~60-day price calendar |
 | `compare_cabin_classes` | Economy through first |
-| `track_price` / `get_price_history` / `list_tracked_routes` | Local SQLite price tracking |
+| `track_price` / `get_price_history` / `list_tracked_routes` | Price tracking (SQLite on server when remote) |
 | `lookup_airport` | City / IATA / name search |
 | `find_nearby_airports` | Alternatives within a radius |
 | `get_flight_url` | Direct Google Flights booking link |
 | `analyze_layovers` | Connection risk |
 
-Example prompts:
+Example prompts in Agent chat:
 
-- "Find nonstop flights from SIN to NRT next month"
+- "Find nonstop flights from SIN to KUL on 2026-09-03, OneWorld preferred"
 - "Cheapest week to fly SIN to LHR in October"
-- "Compare economy vs business for SIN to SFO on 2026-10-12"
-- "Nearby airports to SIN"
+- "Nearby airports to Singapore within 100 km"
 
-## Smoke test
+---
+
+## Smoke tests
+
+**Local stdio:**
 
 ```bash
 npm run flights-mcp:smoke
 ```
 
-Confirms the server starts and lists all 12 tools.
+**Remote (after deploy):**
 
-## Limits
+```bash
+curl https://<your-domain>/health
+```
 
-- There is no official Google Flights API. This reverse-engineers Google's internal endpoint.
-- Google often blocks datacentre / cloud IPs (returns `/travel/flights/unsupported`). Use from your **local Cursor** on a normal home or office network for live fares.
-- Airport lookup, nearby airports, and booking URL generation work offline or without Google search.
-- Prices are estimates at query time. Not a booking system.
+---
+
+## Important limits
+
+| Topic | Detail |
+| --- | --- |
+| **Connectivity** | Railway fixes cloud vs desktop MCP connection. One URL, always on. |
+| **Google IP blocking** | Google often blocks **datacentre IPs** (Railway, Cloud Agent). Live `search_flights` may fail remotely. |
+| **What works remotely** | `lookup_airport`, `find_nearby_airports`, `get_flight_url` (no Google scrape needed) |
+| **Live fares from home** | Use `google-flights-local` on home/office Wi‑Fi, or open `get_flight_url` links in your browser |
+| **No official API** | Reverse-engineered endpoint; can break if Google changes format |
+| **Not a booking system** | Search and links only |
+
+---
 
 ## Licence
 

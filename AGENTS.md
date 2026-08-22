@@ -41,4 +41,4 @@ npm run dev
 
 ## MCP
 
-- Google Flights (free, no API key): `.cursor/mcp.json` → `mcp/google-flights`. Docs: `docs/mcp-google-flights.md`. Run `npm run setup:flights-mcp` after clone. Live fares need a normal consumer network; cloud datacentre IPs are often blocked by Google.
+- Google Flights (free, no API key): remote on Railway via `GF_MCP_URL` + `GF_MCP_AUTH_TOKEN`, or local stdio fallback `google-flights-local`. Docs: `docs/mcp-google-flights.md`. Deploy: `npm run deploy:flights-mcp`.

@@ -43,12 +43,22 @@ apps/web/       Next.js dashboard
 
 Free, no API key. Vendored from [andreacappelletti97/google-flights-mcp](https://github.com/andreacappelletti97/google-flights-mcp).
 
+**Remote (recommended):** deploy to Railway, set `GF_MCP_URL` + `GF_MCP_AUTH_TOKEN`, restart Cursor.
+
+```bash
+npm i -g @railway/cli && railway login
+npm run deploy:flights-mcp
+cd mcp/google-flights && railway domain
+```
+
+**Local fallback:**
+
 ```bash
 npm run setup:flights-mcp
 npm run flights-mcp:smoke
 ```
 
-Then restart Cursor so `.cursor/mcp.json` loads the `google-flights` server (12 tools). Details: [docs/mcp-google-flights.md](docs/mcp-google-flights.md).
+Details: [docs/mcp-google-flights.md](docs/mcp-google-flights.md).
 
 ## Deploy
 

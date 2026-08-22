@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "google-flights": {
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp/google-flights/dist/index.js"]
+    }
+  }
+}
