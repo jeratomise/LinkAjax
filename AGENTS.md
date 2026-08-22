@@ -41,4 +41,4 @@ npm run dev
 
 ## MCP
 
-- Google Flights (free, no API key): remote on Railway via `GF_MCP_URL` + `GF_MCP_AUTH_TOKEN`, or local stdio fallback `google-flights-local`. Docs: `docs/mcp-google-flights.md`. Deploy: `npm run deploy:flights-mcp`.
+- Google Flights (free, no API key): local stdio via `.cursor/mcp.json` → `mcp/google-flights`. Run `npm run setup:flights-mcp` after clone. Live fares work best from a local PC. Optional Railway remote: `docs/mcp-google-flights.md`.
