@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "google-flights": {
+      "url": "${env:GF_MCP_URL}",
+      "headers": {
+        "Authorization": "Bearer ${env:GF_MCP_AUTH_TOKEN}"
+      }
+    }
+  }
+}

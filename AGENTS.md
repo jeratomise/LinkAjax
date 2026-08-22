@@ -34,5 +34,11 @@ Use project skills in `.cursor/skills/` rather than global copies.
 npm run apply -- --jd path/to/jd.md
 npm run merge-voice
 npm run weekly-pack
+npm run setup:flights-mcp
+npm run flights-mcp:smoke
 npm run dev
 ```
+
+## MCP
+
+- Google Flights (free, no API key): local stdio via `.cursor/mcp.json` → `mcp/google-flights`. Run `npm run setup:flights-mcp` after clone. Live fares work best from a local PC. Optional Railway remote: `docs/mcp-google-flights.md`.
