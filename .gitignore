@@ -11,6 +11,10 @@ out/
 apps/web/.next/
 apps/web/.ajax/
 apps/web/node_modules/
+mcp/google-flights/node_modules/
+mcp/google-flights/dist/
+mcp/google-flights/*.tsbuildinfo
+mcp/google-flights/*.tgz
 data/applications/*/resume.docx
 data/applications/*/resume.pdf
 data/applications/*/cover-letter.docx

@@ -32,10 +32,23 @@ Dashboard password is `AJAX_PASSWORD` on Vercel. Do not commit it.
 ```
 data/           facts, voice, queue, applications
 .cursor/skills/ agent workflows
-scripts/        apply, merge-voice, weekly-pack
+.cursor/mcp.json Cursor MCP servers (Google Flights)
+mcp/            vendored MCP servers
+scripts/        apply, merge-voice, weekly-pack, flights MCP setup
 automations/    Cloud Agent prompts for cursor.com/automations
 apps/web/       Next.js dashboard
 ```
+
+## Google Flights MCP
+
+Free, no API key. Vendored from [andreacappelletti97/google-flights-mcp](https://github.com/andreacappelletti97/google-flights-mcp).
+
+```bash
+npm run setup:flights-mcp
+npm run flights-mcp:smoke
+```
+
+Then restart Cursor so `.cursor/mcp.json` loads the `google-flights` server (12 tools). Details: [docs/mcp-google-flights.md](docs/mcp-google-flights.md).
 
 ## Deploy
 
